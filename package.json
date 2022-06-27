@@ -1,7 +1,7 @@
 {
-  "name": "resolutions",
-  "version": "0.1.0",
-  "private": true,
+  "name": "secure-developer-1",
+  "version": "1.0.0",
+  "description": "A developer who is able to develop secure web-based front-end applications.",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
