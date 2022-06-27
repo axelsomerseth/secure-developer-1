@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# Secure Developer 1
+
+> A developer who is able to develop secure web-based front-end applications.
+
+## Master the following skills:
+
+1. Integrate authentication to allow users to log in and sign up through a front-end application
+
+---
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
