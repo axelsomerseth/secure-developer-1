@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import SignupModal from "../components/SignupModal";
 import { getAuthState, logOut } from "../services/auth";
 
 function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   getAuthState((user) => {
     if (user) {
@@ -25,6 +26,7 @@ function Navbar() {
       .then(() => {
         // Sign-out successful.
         // console.log("Log out successful");
+        navigate("/", { replace: true });
       })
       .catch((error) => {
         // An error happened.
@@ -35,10 +37,10 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <a className="navbar-brand" href="/">
+        <Link to="/" className="navbar-brand">
           <span>🎯</span>
           &nbsp;&nbsp;Resolutions
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -63,10 +65,7 @@ function Navbar() {
           <ul className="navbar-nav ms-auto">
             {loggedIn ? (
               <li>
-                <button
-                  className="btn btn-outline-light"
-                  onClick={handleLogOut}
-                >
+                <button className="btn btn-danger" onClick={handleLogOut}>
                   Log out
                 </button>
               </li>
@@ -74,7 +73,7 @@ function Navbar() {
               <>
                 <li>
                   <button
-                    className="btn btn-outline-light"
+                    className="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#loginModal"
                   >
@@ -83,7 +82,7 @@ function Navbar() {
                 </li>
                 <li className="ms-lg-3">
                   <button
-                    className="btn btn-outline-light"
+                    className="btn btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#signupModal"
                   >
