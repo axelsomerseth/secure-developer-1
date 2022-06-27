@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import { login } from "../services/auth";
 
 function LoginModal() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const closeButtonRef = useRef("");
+
   const handleLogin = () => {
-    console.log("trying to log in");
+    const response = login(email, password);
+    response
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        closeButtonRef.current.click();
+        resetForm();
+      })
+      .catch((error) => {
+        console.error(error.code, error.message);
+      });
+  };
+
+  const resetForm = () => {
+    setEmail(() => "");
+    setPassword(() => "");
   };
 
   return (
@@ -27,7 +48,7 @@ function LoginModal() {
             ></button>
           </div>
           <div className="modal-body">
-            <form>
+            <form id="loginForm">
               <div className="mb-3">
                 <label htmlFor="inputEmail" className="form-label">
                   Email address
@@ -36,7 +57,8 @@ function LoginModal() {
                   type="email"
                   className="form-control"
                   id="inputEmail"
-                  aria-describedby="emailHelp"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-3">
@@ -47,6 +69,8 @@ function LoginModal() {
                   type="password"
                   className="form-control"
                   id="inputPassword"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="mb-3 form-check">
@@ -66,8 +90,9 @@ function LoginModal() {
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
+              ref={closeButtonRef}
             >
-              Cancel
+              Close
             </button>
             <button
               type="button"

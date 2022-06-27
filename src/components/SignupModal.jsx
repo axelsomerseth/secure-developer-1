@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import { signup } from "../services/auth";
 
 function SignupModal() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const closeButtonRef = useRef("");
+
   const handleSignup = () => {
-    console.log("trying to sign up");
+    const response = signup(email, password);
+    response
+      .then((userCredential) => {
+        // Signed up and signed in
+        const user = userCredential.user;
+        console.log(user);
+        closeButtonRef.current.click();
+        resetForm();
+      })
+      .catch((error) => {
+        console.error(error.code, error.message);
+      });
+  };
+
+  const resetForm = () => {
+    setEmail(() => "");
+    setPassword(() => "");
   };
 
   return (
@@ -37,6 +58,8 @@ function SignupModal() {
                   className="form-control"
                   id="inputEmailSignup"
                   aria-describedby="emailHelp"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <div id="emailHelp" className="form-text">
                   We'll never share your email with anyone else.
@@ -50,6 +73,8 @@ function SignupModal() {
                   type="password"
                   className="form-control"
                   id="inputPasswordSignup"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </form>
@@ -59,8 +84,9 @@ function SignupModal() {
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
+              ref={closeButtonRef}
             >
-              Cancel
+              Close
             </button>
             <button
               type="button"
