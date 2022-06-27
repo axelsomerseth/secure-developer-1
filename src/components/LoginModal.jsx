@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { login } from "../services/auth";
+import { logIn } from "../services/auth";
 
 function LoginModal() {
   const [email, setEmail] = useState("");
@@ -7,12 +7,11 @@ function LoginModal() {
   const closeButtonRef = useRef("");
 
   const handleLogin = () => {
-    const response = login(email, password);
+    const response = logIn(email, password);
     response
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
-        console.log(user);
+        // const user = userCredential.user;
         closeButtonRef.current.click();
         resetForm();
       })

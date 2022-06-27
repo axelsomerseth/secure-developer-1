@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { signup } from "../services/auth";
+import { signUp } from "../services/auth";
 
 function SignupModal() {
   const [email, setEmail] = useState("");
@@ -7,7 +7,7 @@ function SignupModal() {
   const closeButtonRef = useRef("");
 
   const handleSignup = () => {
-    const response = signup(email, password);
+    const response = signUp(email, password);
     response
       .then((userCredential) => {
         // Signed up and signed in

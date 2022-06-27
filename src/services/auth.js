@@ -2,24 +2,29 @@ import { app } from "./firebase";
 
 import {
   getAuth,
+  onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 
-const signup = (email, password) => {
-  return createUserWithEmailAndPassword(auth, email, password);
-};
-
-const login = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
-};
-
 const getAuthState = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
 
-export { signup, login, getAuthState };
+const signUp = (email, password) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+};
+
+const logIn = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
+};
+
+const logOut = () => {
+  return signOut(auth);
+};
+
+export { getAuthState, signUp, logIn, logOut };
