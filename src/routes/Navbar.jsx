@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import SignupModal from "../components/SignupModal";
@@ -8,18 +8,20 @@ function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  getAuthState((user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      // const uid = user.uid;
-      // console.log(user);
-      setLoggedIn(() => true);
-    } else {
-      // User is signed out
-      setLoggedIn(() => false);
-    }
-  });
+  useEffect(() => {
+    getAuthState((user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        // const uid = user.uid;
+        // console.log(user);
+        setLoggedIn(() => true);
+      } else {
+        // User is signed out
+        setLoggedIn(() => false);
+      }
+    });
+  }, []);
 
   const handleLogOut = () => {
     logOut()
