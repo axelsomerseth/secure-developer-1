@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import SignupModal from "../components/SignupModal";
 import { getAuthState, logOut } from "../services/auth";
@@ -6,19 +7,17 @@ import { getAuthState, logOut } from "../services/auth";
 function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-    getAuthState((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        // const uid = user.uid;
-        // console.log(user);
-        setLoggedIn(() => true);
-      } else {
-        // User is signed out
-        setLoggedIn(() => false);
-      }
-    });
+  getAuthState((user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      // const uid = user.uid;
+      // console.log(user);
+      setLoggedIn(() => true);
+    } else {
+      // User is signed out
+      setLoggedIn(() => false);
+    }
   });
 
   const handleLogOut = () => {
@@ -52,6 +51,15 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto">
+            {loggedIn && (
+              <li className="nav-item">
+                <Link to="/profile" className="nav-link active">
+                  Profile
+                </Link>
+              </li>
+            )}
+          </ul>
           <ul className="navbar-nav ms-auto">
             {loggedIn ? (
               <li>

@@ -11,8 +11,8 @@ function SignupModal() {
     response
       .then((userCredential) => {
         // Signed up and signed in
-        const user = userCredential.user;
-        console.log(user);
+        // const user = userCredential.user;
+        // console.log(user);
         closeButtonRef.current.click();
         resetForm();
       })
