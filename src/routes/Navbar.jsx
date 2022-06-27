@@ -32,7 +32,8 @@ function Navbar() {
       })
       .catch((error) => {
         // An error happened.
-        console.error(error);
+        console.error(error.code);
+        console.error(error.message);
       });
   };
 

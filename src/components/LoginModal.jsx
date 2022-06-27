@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import { logIn } from "../services/auth";
+import Alert from "./Alert";
 
 function LoginModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState("");
   const closeButtonRef = useRef("");
 
   const handleLogin = () => {
@@ -12,17 +15,21 @@ function LoginModal() {
       .then((userCredential) => {
         // Signed in
         // const user = userCredential.user;
+        setAlertMessage(() => "");
         closeButtonRef.current.click();
         resetForm();
       })
       .catch((error) => {
-        console.error(error.code, error.message);
+        setAlertMessage(() => error.message);
+        setAlertType(() => "danger");
+        console.error(error.code);
       });
   };
 
   const resetForm = () => {
     setEmail(() => "");
     setPassword(() => "");
+    setAlertMessage(() => "");
   };
 
   return (
@@ -83,6 +90,7 @@ function LoginModal() {
                 </label>
               </div>
             </form>
+            <Alert message={alertMessage} type={alertType} />
           </div>
           <div className="modal-footer">
             <button
@@ -90,6 +98,7 @@ function LoginModal() {
               className="btn btn-secondary"
               data-bs-dismiss="modal"
               ref={closeButtonRef}
+              onClick={() => resetForm()}
             >
               Close
             </button>
