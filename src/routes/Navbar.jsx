@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import SignupModal from "../components/SignupModal";
-import { getAuthState, logOut } from "../services/auth";
+import { onAuthState, logOut } from "../services/auth";
 
 function Navbar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAuthState((user) => {
+    const unsubscribe = onAuthState((user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
@@ -21,6 +21,10 @@ function Navbar() {
         setLoggedIn(() => false);
       }
     });
+
+    return function cleanup() {
+      unsubscribe();
+    };
   }, []);
 
   const handleLogOut = () => {

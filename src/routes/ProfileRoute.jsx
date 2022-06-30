@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { getAuthState } from "../services/auth";
+import { onAuthState } from "../services/auth";
 
 function ProfileRoute() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    getAuthState((user) => {
+    const unsubscribe = onAuthState((user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
@@ -17,6 +17,10 @@ function ProfileRoute() {
         setUser(() => null);
       }
     });
+
+    return function cleanup() {
+      unsubscribe();
+    };
   });
 
   const getUserProps = (user) => {
